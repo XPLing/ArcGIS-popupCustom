@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "lib": [
+      "ES2019",
+      "DOM"
+    ],
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "sourceMap": false,
+    "jsx": "react",
+    "jsxFactory": "tsx",
+    "target": "es5",
+    "experimentalDecorators": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
+    "outDir": "./dist/"
+  },
+  "include": [
+    "./src",
+    "typings"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*-final.tsx",
+    "**/*-final.ts"
+  ]
+}

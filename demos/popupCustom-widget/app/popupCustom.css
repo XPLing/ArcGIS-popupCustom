@@ -1,0 +1,62 @@
+.esri-popup-custom {
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    flex-flow: column nowrap;
+    width: 200px;
+    pointer-events: none;
+    background-color: #fff;
+    color: #6e6e6e;
+    box-sizing: border-box;
+}
+
+.esri-popup-custom__container {
+    padding: 6px 7px;
+}
+
+.esri-popup-custom__mainContainer {
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    pointer-events: auto;
+}
+
+.esri-popup-custom__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.esri-popup-custom__title {
+    padding: 6px 7px;
+    flex: 1;
+}
+
+.esri-popup-custom__header--buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.esri-popup-custom__header--button {
+    padding: 6px 7px;
+    transition: background-color 125ms ease-in-out;
+    cursor: pointer;
+}
+
+.esri-popup-custom__header--button:hover {
+    color: #2e2e2e;
+    background-color: #f3f3f3;
+}
+
+.esri-popup-custom__icon {
+    width: 16px;
+    height: 16px;
+}
+
+.esri-popup-custom-widgets {
+    position: static;
+}
+
+.esri-popup-custom-wrapper {
+    z-index: 1;
+}
