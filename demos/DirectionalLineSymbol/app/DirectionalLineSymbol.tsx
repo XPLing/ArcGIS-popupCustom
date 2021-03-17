@@ -19,7 +19,7 @@ import {
   PopupPositionStyle,
   PopupOutsideViewOptions
 } from "esri/widgets/Popup/interfaces";
-import { PopupCustomWidgetProperties, ScreenPoint, PopupOpenOptions } from "./interfaces";
+import { PopupCustomWidgetProperties, ScreenPoint, PopupSetOptions } from "./interfaces";
 // UI style css
 import { CSS } from "./resources";
 
@@ -28,7 +28,7 @@ const popupWidgetName = "popupWidget";
 let popupIndex = 0;
 
 @subclass("esri.widgets.PopupCustom")
-class PopupCustom extends Widget {
+class DirectionalLineSymbol extends Widget {
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -37,22 +37,13 @@ class PopupCustom extends Widget {
 
   constructor(props?: PopupCustomWidgetProperties) {
     super(props);
-    this.uid = uuid();
-    this.graphic = props.graphic;
-    if (this.graphic) {
-      this.graphic.popupId = this.uid;
-    }
-    this._updateCollection();
-    this._createContainer(props.container);
+
   }
 
   postInitialize() {
     this.handles.add(watch(this, "view.center, view.interacting, view.scale", () => {
       this._renderNow();
     }));
-    this._setHandler();
-    this._mountContainer();
-    this._renderNow();
   }
 
   destroy() {
@@ -110,6 +101,12 @@ class PopupCustom extends Widget {
   //----------------------------------
   @property()
   uid: string;
+
+  //----------------------------------
+  //  uid
+  //----------------------------------
+  @property()
+  options: object;
 
   //----------------------------------
   //  visible
@@ -288,17 +285,25 @@ class PopupCustom extends Widget {
   //
   //--------------------------------------------------------------------------
 
-  public open = (option?: PopupOpenOptions) => {
+  public open = (option?: PopupSetOptions) => {
+    if (!option.location) {
+      if (this.graphic) {
+        const geometry = this.graphic.geometry
+        option.location = geometry.type === "point" ? geometry : geometry.centroid;
+      }
+    }
     const opts = Object.assign({}, option, {
       visible: true
     });
-    this.set(opts);
+    this.setOption(opts);
     this._updateScreenLocation();
     if (this.hideOther) {
       this._hideOtherPopup();
     }
   };
-
+  setOption = (option: object) => {
+    this.set(option);
+  };
   setZIndex = (val: number) => {
     this.zIndex = val;
     if (val > this.getMaxZIndex()) {
@@ -800,15 +805,15 @@ class PopupCustom extends Widget {
   private _setHandler() {
     if (this.graphic && this.graphic.layer) {
       const graphicLayer = this.graphic.layer;
-      graphicLayer.graphics.on("before-remove", (e: any) => {
+      this.handles.add(graphicLayer.graphics.on("before-remove", (e: any) => {
         const target = e.item;
         if (target) {
           const popupId = target.popupId;
-          if (popupId === this.uid && PopupCustom.getPopup(popupId)) {
+          if (popupId === this.uid && DirectionalLineSymbol.getPopup(popupId)) {
             this.destroy();
           }
         }
-      });
+      }));
     }
   }
 
@@ -854,4 +859,4 @@ function buildKey(element: string, id?: string, index?: number): string {
   return str += `__${element}`;
 }
 
-export = PopupCustom;
+export = DirectionalLineSymbol;

@@ -8,6 +8,7 @@ import PopupCustom from "./popupCustom";
 import esriConfig from "esri/config";
 import Point from "esri/geometry/Point";
 import Geometry from "esri/geometry/Geometry";
+import Color from "esri/Color";
 
 esriConfig.apiKey = "AAPK032ce48cb2ba42f48f3b57a97618b6d6cqtOLTX-vYbtZsDUL2aMW9WZ3vCC-t1grT3a92KnGWpVHG1GqDopfaDClszp9Fe6";
 // latest 14 months of unemployment statistics
@@ -113,6 +114,13 @@ view.on("click", (e) => {
       // const key = Object.keys(popupCollection)[0];
       // popupCollection[key].destroy();
       graphicsLayer.remove(polygonGraphic);
+    });
+    document.getElementById("reorder").addEventListener("click", () => {
+      pointGraphic.geometry = new Point({
+        latitude: 34.0005930608889,
+        longitude: -118.80657463961
+      });
+      pointGraphic.symbol.color = new Color("green");
     });
   });
 });
