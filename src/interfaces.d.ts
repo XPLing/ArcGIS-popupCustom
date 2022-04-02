@@ -2,28 +2,32 @@ import WidgetProperties = __esri.WidgetProperties;
 import MapView from "esri/views/MapView";
 import Point from "esri/geometry/Point";
 import Graphic from "esri/Graphic";
+import Geometry from "@arcgis/core/geometry/Geometry";
 
 export interface ScreenPoint {
   x: number;
   y: number;
 }
 
-export interface PopupOpenOptions {
+export type  PopupLocation = Point | Graphic | Geometry
+
+interface BaseOptions {
   title?: string | HTMLElement;
   content?: string | HTMLElement;
-  graphic?: Graphic;
-  location?: Point;
-  hideOther?: boolean;
+  location?: PopupLocation;
+  visible?: boolean;
+  hideOther?: boolean;// hide other popup when active popup showing
 }
 
-export interface PopupCustomProperties {
+export interface PopupSetOptions extends BaseOptions {
+  reopen?: boolean
+}
+
+export interface PopupCustomProperties extends BaseOptions {
   view: MapView;
-  title?: string | HTMLElement;
   graphic?: Graphic;
-  content?: string | HTMLElement;
-  location?: Point;
-  autoAdjustZIndex?:boolean; // auto adjust popup's zIndex when click
-  hideOther?: boolean;// hide other popup when active popup showing
+  autoAdjustZIndex?: boolean; // auto adjust popup's zIndex when click
+  [k: string]: any
 }
 
 export interface PopupCustomWidgetProperties extends WidgetProperties, PopupCustomProperties {

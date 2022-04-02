@@ -60,6 +60,10 @@ const point = new Point({ //Create a point
   longitude: -118.80657463861,
   latitude: 34.0005930608889
 });
+const point2 = new Point({ //Create a point
+  longitude: -118.80657463861,
+  latitude: 40.0005930608889
+});
 const simpleMarkerSymbol = {
   type: "simple-marker",
   color: [226, 119, 40],  // Orange
@@ -72,7 +76,12 @@ const pointGraphic = new Graphic({
   geometry: point,
   symbol: simpleMarkerSymbol
 });
+const pointGraphic2 = new Graphic({
+  geometry: point2,
+  symbol: simpleMarkerSymbol
+});
 graphicsLayer.add(pointGraphic);
+graphicsLayer.add(pointGraphic2);
 
 const names = [
   { firstName: "John", lastName: "Smith" },
@@ -81,7 +90,7 @@ const names = [
 ];
 let nameIndex = 0;
 let popup = createPopup(view, "popupWidget");
-// popup.open(pointGraphic);
+popup.open(pointGraphic);
 view.on("click", (e) => {
   const opts = {
     include: graphicsLayer
@@ -132,8 +141,7 @@ function createPopup(view: MapView, container: string = "popupWidget", content?:
     graphic,
     autoAdjustZIndex: true,
     autoHide: true,
-    hideOther: false,
-    pointerOffset: 20
+    hideOther: false
   });
   // popup.on("closed", (popup) => {
   //   console.log("closed popup", popup);

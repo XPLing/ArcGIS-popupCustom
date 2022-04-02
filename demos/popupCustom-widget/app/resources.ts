@@ -9,6 +9,7 @@ export const CSS = {
   header: "esri-popup-custom__header",
   buttons: "esri-popup-custom__header--buttons",
   button: "esri-popup-custom__header--button",
+  closeButton: "esri-popup-custom__header--button-close",
   icon: "esri-popup-custom__icon",
   title: "esri-popup-custom__title",
   closeIcon: "esri-icon-close",

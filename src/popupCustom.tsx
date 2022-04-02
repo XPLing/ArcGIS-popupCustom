@@ -1,17 +1,17 @@
-import { subclass, property, aliasOf } from "esri/core/accessorSupport/decorators";
-import { tsx } from "esri/widgets/support/widget";
-import Widget from "esri/widgets/Widget";
-import Error from "esri/core/Error";
-import MapView from "esri/views/MapView";
-import Point from "esri/geometry/Point";
+import { subclass, property, aliasOf } from "@arcgis/core/core/accessorSupport/decorators";
+import { tsx, isRTL } from "@arcgis/core/widgets/support/widget";
+import Widget from "@arcgis/core/widgets/Widget";
+import Error from "@arcgis/core/core/Error";
+import MapView from "@arcgis/core/views/MapView";
+import Point from "@arcgis/core/geometry/Point";
 import { VNode } from "esri/widgets/support/interfaces";
-import { FeatureContentMixin } from "esri/widgets/Feature/support/FeatureContentMixin";
+import { FeatureContentMixin } from "@arcgis/core/widgets/Feature/support/FeatureContentMixin";
 import WidgetProperties = __esri.WidgetProperties;
-import * as widgetUtils from "esri/widgets/support/widgetUtils";
-import SceneView from "esri/views/SceneView";
-import Handles from "esri/core/Handles";
-import { watch } from "esri/core/watchUtils";
+import SceneView from "@arcgis/core/views/SceneView";
+import Handles from "@arcgis/core/core/Handles";
+import { watch } from "@arcgis/core/core/watchUtils";
 import { uuid } from "./util";
+// @ts-ignore
 import {
   Alignment,
   PositionValue,
@@ -20,12 +20,10 @@ import {
   PopupPositionStyle,
   PopupOutsideViewOptions
 } from "esri/widgets/Popup/interfaces";
-import { PopupCustomWidgetProperties, ScreenPoint, PopupSetOptions } from "./interfaces";
+import { PopupCustomWidgetProperties, ScreenPoint, PopupSetOptions, PopupLocation } from "./interfaces";
 // UI style css
 import { CSS } from "./resources";
-import { PopupLocation } from "../../../src/interfaces";
-import Graphic from "esri/Graphic";
-import watchUtils from "esri/core/watchUtils";
+import Graphic from "@arcgis/core/Graphic";
 
 const popupCollection = {};
 const popupWidgetName = "popupWidget";
@@ -189,13 +187,6 @@ class PopupCustom extends FeatureContentMixin(Widget) {
   //----------------------------------
   @property()
   autoAdjustZIndex: boolean = false;
-
-  //----------------------------------
-  //  autoHide
-  //----------------------------------
-  @property()
-  autoHide: boolean = false;
-
   // ----------------------------------
   //  width
   //----------------------------------
@@ -270,7 +261,7 @@ class PopupCustom extends FeatureContentMixin(Widget) {
   //  hideTitle
   //----------------------------------
   @property()
-  hideTitle: boolean = false;
+  hideTitle: boolean = true;
 
   //---------------------------------
   // alignment
@@ -300,7 +291,6 @@ class PopupCustom extends FeatureContentMixin(Widget) {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
-
   @property()
   private _pointerOffsetInPx = 16;
 
@@ -412,7 +402,6 @@ class PopupCustom extends FeatureContentMixin(Widget) {
       </div>
     );
   };
-
   protected renderPopupCloseBtn = () => {
     return (
       <div class={this.classes(CSS.button, CSS.closeButton)} title={this.closeTip} onclick={this._handleClose}
@@ -781,7 +770,7 @@ class PopupCustom extends FeatureContentMixin(Widget) {
   private _calculatePositionResult(position: PositionValue): PositionResult {
     const values = ["left", "right"];
 
-    if (widgetUtils.isRTL()) {
+    if (isRTL()) {
       values.reverse();
     }
 
@@ -850,21 +839,11 @@ class PopupCustom extends FeatureContentMixin(Widget) {
   }
 
   private _setHandler() {
-    const handleArr = [
+    this.own([
       watch(this, "view.center, view.interacting, view.scale", () => {
         this._renderNow();
       })
-    ];
-    if (this.autoHide) {
-      handleArr.push(this.view.on("click", (event) => {
-        this.view.hitTest(event).then((response) => {
-          if (!response.results.length) {
-            this.close();
-          }
-        });
-      }));
-    }
-    this.own(handleArr);
+    ]);
     if (this.graphic && this.graphic.layer) {
       const graphicLayer = this.graphic.layer;
       this.handles.add(graphicLayer.graphics.on("before-remove", (e: any) => {
@@ -926,4 +905,4 @@ function buildKey(element: string, id?: string, index?: number): string {
   return str += `__${element}`;
 }
 
-export = PopupCustom;
+export default PopupCustom;

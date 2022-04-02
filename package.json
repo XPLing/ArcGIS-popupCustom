@@ -7,7 +7,8 @@
     "tsc-w": "tsc -W"
   },
   "dependencies": {
-    "tslib": "^2.1.0"
+    "tslib": "^2.1.0",
+    "@arcgis/core": "^4.23.3"
   },
   "devDependencies": {
     "@types/arcgis-js-api": "^4.18.0",

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "amd",
+    "module": "esnext",
     "lib": [
       "ES2019",
       "DOM"
@@ -10,7 +10,7 @@
     "sourceMap": false,
     "jsx": "react",
     "jsxFactory": "tsx",
-    "target": "es5",
+    "target": "esnext",
     "experimentalDecorators": true,
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
