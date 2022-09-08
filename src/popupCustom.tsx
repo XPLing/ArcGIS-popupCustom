@@ -286,6 +286,11 @@ class PopupCustom extends FeatureContentMixin(Widget) {
     return this._getCurrentAlignment();
   }
 
+  //----------------------------------
+  //  yoffset
+  //----------------------------------
+  @property()
+  yoffset = 0;
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -491,7 +496,7 @@ class PopupCustom extends FeatureContentMixin(Widget) {
     view: MapView | SceneView,
     width: number
   ): PopupPosition {
-    const { currentAlignment, _pointerOffsetInPx: pointerOffset } = this;
+    const { currentAlignment, _pointerOffsetInPx: pointerOffset, yoffset } = this;
     const halfWidth = width / 2;
     const viewHeightOffset = view.height - y;
     const viewWidthOffset = view.width - x;
@@ -499,42 +504,42 @@ class PopupCustom extends FeatureContentMixin(Widget) {
 
     if (currentAlignment === "bottom-center") {
       return {
-        top: y + pointerOffset - padding.top,
+        top: y + pointerOffset - padding.top + yoffset,
         left: x - halfWidth - padding.left
       };
     }
 
     if (currentAlignment === "top-left") {
       return {
-        bottom: viewHeightOffset + pointerOffset - padding.bottom,
+        bottom: viewHeightOffset + pointerOffset - padding.bottom + yoffset,
         right: viewWidthOffset + pointerOffset - padding.right
       };
     }
 
     if (currentAlignment === "bottom-left") {
       return {
-        top: y + pointerOffset - padding.top,
+        top: y + pointerOffset - padding.top + yoffset,
         right: viewWidthOffset + pointerOffset - padding.right
       };
     }
 
     if (currentAlignment === "top-right") {
       return {
-        bottom: viewHeightOffset + pointerOffset - padding.bottom,
+        bottom: viewHeightOffset + pointerOffset - padding.bottom + yoffset,
         left: x + pointerOffset - padding.left
       };
     }
 
     if (currentAlignment === "bottom-right") {
       return {
-        top: y + pointerOffset - padding.top,
+        top: y + pointerOffset - padding.top + yoffset,
         left: x + pointerOffset - padding.left
       };
     }
 
     if (currentAlignment === "top-center") {
       return {
-        bottom: viewHeightOffset + pointerOffset - padding.bottom,
+        bottom: viewHeightOffset + pointerOffset - padding.bottom + yoffset,
         left: x - halfWidth - padding.left
       };
     }
