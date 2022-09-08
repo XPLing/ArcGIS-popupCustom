@@ -504,7 +504,7 @@ class PopupCustom extends FeatureContentMixin(Widget) {
 
     if (currentAlignment === "bottom-center") {
       return {
-        top: y + pointerOffset - padding.top + yoffset,
+        top: y + pointerOffset - padding.top - yoffset,
         left: x - halfWidth - padding.left
       };
     }
@@ -518,7 +518,7 @@ class PopupCustom extends FeatureContentMixin(Widget) {
 
     if (currentAlignment === "bottom-left") {
       return {
-        top: y + pointerOffset - padding.top + yoffset,
+        top: y + pointerOffset - padding.top - yoffset,
         right: viewWidthOffset + pointerOffset - padding.right
       };
     }
@@ -532,7 +532,7 @@ class PopupCustom extends FeatureContentMixin(Widget) {
 
     if (currentAlignment === "bottom-right") {
       return {
-        top: y + pointerOffset - padding.top + yoffset,
+        top: y + pointerOffset - padding.top - yoffset,
         left: x + pointerOffset - padding.left
       };
     }
